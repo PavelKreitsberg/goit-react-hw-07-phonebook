@@ -22,6 +22,11 @@ export default function ContactForm({ onSubmit }) {
     }
   };
 
+  const reset = () => {
+    setName('');
+    setNumber('');
+  };
+
   const handleSubmitForm = event => {
     event.preventDefault();
 
@@ -30,11 +35,6 @@ export default function ContactForm({ onSubmit }) {
     onSubmit(newContact);
 
     reset();
-  };
-
-  const reset = () => {
-    setName('');
-    setNumber('');
   };
 
   return (
