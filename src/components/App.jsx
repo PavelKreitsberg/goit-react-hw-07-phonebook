@@ -5,24 +5,27 @@ import ContactForm from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { useDispatch, useSelector } from 'react-redux';
-import { contactAdded, contactDeleted } from 'redux/contacts/contactsSlice';
 import { filterChange } from 'redux/filter/filterSlice';
+import { useEffect } from 'react';
+import { fetchContacts, addContact, deleteContact } from '../redux/operations';
 
 export default function App() {
   const dispatch = useDispatch();
 
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.filter);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const formSubmitHandler = data => {
     const inContacts = contacts.find(contact => contact.name === data.name);
-
     if (inContacts) {
       alert(`${data.name} is already in contacts.`);
       return;
     }
-
-    dispatch(contactAdded(data));
+    dispatch(addContact(data));
   };
 
   const handleInputChange = event => {
@@ -30,7 +33,7 @@ export default function App() {
   };
 
   const deleteContactByClick = event => {
-    dispatch(contactDeleted(event.target.id));
+    dispatch(deleteContact(event.target.id));
   };
 
   const filterContactListByQuery = () => {
