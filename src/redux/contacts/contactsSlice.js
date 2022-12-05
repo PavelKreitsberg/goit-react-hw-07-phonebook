@@ -23,8 +23,9 @@ const contactsSlice = createSlice({
     [addContact.pending](state) {
         return {...state, isLoading: true}
     },
-    [addContact.fulfilled](state, action) {
-      return { isLoading: false, error: null, items: state.items.push(action.payload)}
+      [addContact.fulfilled](state, action) {
+
+      return { isLoading: false, error: null, items: [...state.items, action.payload]}
     },
     [addContact.rejected](state, action) {
       return {...state, isLoading: false, error: action.payload}
